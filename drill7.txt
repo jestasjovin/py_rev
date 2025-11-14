@@ -1,0 +1,2236 @@
+DRILL 7:  31qns
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+19.Island Perimeter
+1.Number of Islands   	
+2.Max Area of Island   
+
+
+20.Verifying An Alien Dictionary
+21.Find the Town Judge 
+3.Clone Graph  
+
+4.Walls And Gates   	
+5.Rotting Oranges   	
+6.Pacific Atlantic Water Flow   	
+7.Surrounded Regions 
+23.Open The Lock
+
+8.Course Schedule   	
+9.Course Schedule II   	
+QA
+11.Number of Connected Components In An Undirected Graph   	
+
+
+*24.Course Schedule IV	
+*25.Accounts Merge	
+*26.Evaluate Division	
+*27.Minimum Height Trees
+*12.Redundant Connection  S
+
+advnced
+*28.Path with Minimum Effort	
+*13.Reconstruct Itinerary   	
+*14.Min Cost to Connect All Points   
+*15.Network Delay Time 
+
+
+*16.Swim In Rising Water   	
+*17.Alien Dictionary   	
+*18.Cheapest Flights Within K Stops 
+
+
+*29.Reconstruct Itinerary   
+*30.Swim In Rising Water   
+*22.Word Ladder   
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+ 
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+463. Island Perimeter 
+class Solution:
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        visit = set()
+
+        def dfs(i, j):
+            if i < 0 or j < 0 or i >= rows or j >= cols or grid[i][j] == 0:
+                return 1
+            if (i, j) in visit:
+                return 0
+
+            visit.add((i, j))
+            perim = dfs(i, j + 1) + dfs(i + 1, j) + dfs(i, j - 1) + dfs(i - 1, j)
+            return perim
+
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j]:
+                    return dfs(i, j)
+        return 0
+
+
+953. Verifying An Alien Dictionary
+2. Comparing adjacent words
+public class Solution {
+    public boolean isAlienSorted(String[] words, String order) {
+        int[] orderIndex = new int[26];
+        for (int i = 0; i < order.length(); i++)
+            orderIndex[order.charAt(i) - 'a'] = i;
+        
+        for (int i = 0; i < words.length - 1; i++) {
+            String w1 = words[i], w2 = words[i + 1];
+            int j = 0;
+            
+            for (; j < w1.length(); j++) {
+                if (j == w2.length()) return false;
+                if (w1.charAt(j) != w2.charAt(j)) {
+                    if (orderIndex[w1.charAt(j) - 'a'] > orderIndex[w2.charAt(j) - 'a']) {
+                        return false;
+                    }
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+
+
+997. Find the Town Judge 
+
+Indegree & Outdegree
+public class Solution {
+    public int findJudge(int n, int[][] trust) {
+        int[] incoming = new int[n + 1];
+        int[] outgoing = new int[n + 1];
+        
+        for (int[] t : trust) {
+            outgoing[t[0]]++;
+            incoming[t[1]]++;
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            if (outgoing[i] == 0 && incoming[i] == n - 1) {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+}
+
+
+soln 2. Indegree & Outdegree (Optimal)
+public class Solution {
+    public int findJudge(int n, int[][] trust) {
+        int[] delta = new int[n + 1];
+
+        for (int[] t : trust) {
+            delta[t[0]] -= 1;
+            delta[t[1]] += 1;
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            if (delta[i] == n - 1) {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+200. Number of Islands 
+2. Breadth First Search
+
+    private static final int[][] directions = {{1, 0}, {-1, 0}, 
+                                               {0, 1}, {0, -1}};
+    
+    public int numIslands(char[][] grid) {
+        int ROWS = grid.length, COLS = grid[0].length;
+        int islands = 0;
+        
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (grid[r][c] == '1') {
+                    bfs(grid, r, c);
+                    islands++;
+                }
+            }
+        }
+        
+        return islands;
+    }
+    
+    private void bfs(char[][] grid, int r, int c) {
+        Queue<int[]> q = new LinkedList<>();
+        grid[r][c] = '0';
+        q.add(new int[]{r, c});
+        
+        while (!q.isEmpty()) {
+            int[] node = q.poll();
+            int row = node[0], col = node[1];
+            
+           dcs
+        }
+    }
+}
+
+
+
+
+
+
+1. Depth First Search
+public class Solution {
+    private static final int[][] directions = {{1, 0}, {-1, 0}, 
+                                               {0, 1}, {0, -1}};
+     
+    public int numIslands(char[][] grid) {
+        int ROWS = grid.length, COLS = grid[0].length;
+        int islands = 0;
+        
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (grid[r][c] == '1') {
+                    dfs(grid, r, c);
+                    islands++;
+                }
+            }
+        }
+        
+        return islands;
+    }
+    
+    private void dfs(char[][] grid, int r, int c) {
+        if (r < 0 || c < 0 || r >= grid.length || 
+            c >= grid[0].length || grid[r][c] == '0') {
+            return;
+        }
+        
+        grid[r][c] = '0';
+        for (int[] dir : directions) {
+            dfs(grid, r + dir[0], c + dir[1]);
+        }
+    }
+}
+
+
+
+
+
+
+Max Area of Island
+1. Depth First Search
+
+public class Solution {
+    private static final int[][] directions = {{1, 0}, {-1, 0}, 
+                                               {0, 1}, {0, -1}};
+    
+    public int maxAreaOfIsland(int[][] grid) {
+        int ROWS = grid.length, COLS = grid[0].length;
+        int area = 0;
+        
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (grid[r][c] == 1) {
+                    area = Math.max(area, dfs(grid, r, c));
+                }
+            }
+        }
+        
+        return area;
+    }
+    
+    private int dfs(int[][] grid, int r, int c) {
+        if (r < 0 || c < 0 || r >= grid.length || 
+            c >= grid[0].length || grid[r][c] == 0) {
+            return 0;
+        }
+        
+        grid[r][c] = 0;
+        int res = 1;
+        for (int[] dir : directions) {
+            res += dfs(grid, r + dir[0], c + dir[1]);
+        }
+        return res;
+    }
+}
+
+2. Breadth First Search
+public class Solution {
+    private static final int[][] directions = {{1, 0}, {-1, 0}, 
+                                               {0, 1}, {0, -1}};
+    
+    public int maxAreaOfIsland(int[][] grid) {
+        int ROWS = grid.length, COLS = grid[0].length;
+        int area = 0;
+        
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (grid[r][c] == 1) {
+                    area = Math.max(area, bfs(grid, r, c));
+                }
+            }
+        }
+        
+        return area;
+    }
+    
+    private int bfs(int[][] grid, int r, int c) {
+        Queue<int[]> q = new LinkedList<>();
+        grid[r][c] = 0;
+        q.add(new int[]{r, c});
+        int res = 1;
+
+        while (!q.isEmpty()) {
+            int[] node = q.poll();
+            int row = node[0], col = node[1];
+            
+            for (int[] dir : directions) {
+                int nr = row + dir[0], nc = col + dir[1];
+                if (nr >= 0 && nc >= 0 && nr < grid.length && 
+                    nc < grid[0].length && grid[nr][nc] == 1) {
+                    q.add(new int[]{nr, nc});
+                    grid[nr][nc] = 0;
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+133. Clone Graph - Explanation
+
+                                             table
+                                             old node:::: new done 
+                                             
+                                             bidirectional
+                                             
+                                  start at 1: neignours :: 
+                                  go to one neighbour i,e 2
+                                  
+                                  at node 2 :::clone node 2 
+                                  and add to hashmap
+                                    at 2...has neighbors : 1 and 4 ...
+                                    1 is there in hash map
+                                    we connect it
+                                    
+                                 go to neighbor 4::: go on .....
+                                 
+                                 at 3 add it ..4 and 1 connect em
+                                 
+                                 recursive.....
+                                 we started at neighor 2..
+                                 ==> coonect 1 to 3
+
+ 1-----2
+ |     |
+ |     |
+ 3-----4
+ 
+ 
+ 
+/*
+Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+*/
+
+public class Solution {
+    public Node cloneGraph(Node node) {
+        Map<Node, Node> oldToNew = new HashMap<>();
+
+        return dfs(node, oldToNew);
+    }
+
+    private Node dfs(Node node, Map<Node, Node> oldToNew) {
+        if (node == null) {
+            return null;
+        }
+//return node if added
+        if (oldToNew.containsKey(node)) {
+            return oldToNew.get(node);
+        }
+
+        Node copy = new Node(node.val);
+        oldToNew.put(node, copy);
+
+
+//goes into the children and if they in hashmap.....its added as neighbour
+        for (Node nei : node.neighbors) {
+            copy.neighbors.add(dfs(nei, oldToNew));
+        }
+
+        return copy;
+    }
+}
+
+
+
+
+
+  	
+*4.Walls And Gates  
+public class Solution {
+    public void islandsAndTreasure(int[][] grid) {
+        Queue<int[]> q = new LinkedList<>();
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 0) {
+                    q.add(new int[] { i, j });
+                }
+            }
+        }
+        if (q.size() == 0) return;
+
+        int[][] dirs = { { -1, 0 }, { 0, -1 }, 
+                         { 1, 0 }, { 0, 1 } };
+        while (!q.isEmpty()) {
+            int[] node = q.poll();
+            int row = node[0];
+            int col = node[1];
+            for (int[] dir : dirs) {
+                int r = row + dir[0];
+                int c = col + dir[1];
+                if (r >= m || c >= n || r < 0 ||
+                    c < 0 || grid[r][c] != Integer.MAX_VALUE) {
+                    continue;
+                }
+                q.add(new int[] { r, c });
+
+                grid[r][c] = grid[row][col] + 1;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+*5.Rotting Oranges  
+public class Solution {
+    public int orangesRotting(int[][] grid) {
+        Queue<int[]> q = new ArrayDeque<>();
+        int fresh = 0;
+        int time = 0;
+
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                if (grid[r][c] == 1) {
+                    fresh++;
+                }
+                if (grid[r][c] == 2) {
+                    q.offer(new int[]{r, c});
+                }
+            }
+        }
+
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        while (fresh > 0 && !q.isEmpty()) {
+            int length = q.size();
+            for (int i = 0; i < length; i++) {
+                int[] curr = q.poll();
+                int r = curr[0];
+                int c = curr[1];
+
+                for (int[] dir : directions) {
+                    int row = r + dir[0];
+                    int col = c + dir[1];
+                    if (row >= 0 && row < grid.length && 
+                        col >= 0 && col < grid[0].length &&
+                        grid[row][col] == 1) {
+                        grid[row][col] = 2;
+                        q.offer(new int[]{row, col});
+                        fresh--;
+                    }
+                }
+            }
+            time++;
+        }
+        return fresh == 0 ? time : -1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+*6.Pacific Atlantic Water Flow   
+public class Solution {
+    private int[][] directions = {{1, 0}, {-1, 0}, 
+                                  {0, 1}, {0, -1}};
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        int ROWS = heights.length, COLS = heights[0].length;
+        boolean[][] pac = new boolean[ROWS][COLS];
+        boolean[][] atl = new boolean[ROWS][COLS];
+
+        for (int c = 0; c < COLS; c++) {
+            dfs(0, c, pac, heights);
+            dfs(ROWS - 1, c, atl, heights);
+        }
+        for (int r = 0; r < ROWS; r++) {
+            dfs(r, 0, pac, heights);
+            dfs(r, COLS - 1, atl, heights);
+        }
+
+        List<List<Integer>> res = new ArrayList<>();
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (pac[r][c] && atl[r][c]) {
+                    res.add(Arrays.asList(r, c));
+                }
+            }
+        }
+        return res;
+    }
+
+    private void dfs(int r, int c, boolean[][] ocean, int[][] heights) {
+        ocean[r][c] = true;
+        for (int[] d : directions) {
+            int nr = r + d[0], nc = c + d[1];
+            if (nr >= 0 && nr < heights.length && 
+                nc >= 0 && nc < heights[0].length && 
+                !ocean[nr][nc] && heights[nr][nc] >= heights[r][c]) {
+                dfs(nr, nc, ocean, heights);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*7.Surrounded Regions 
+DFS
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        ROWS, COLS = len(board), len(board[0])
+
+        def capture(r, c):
+            if (r < 0 or c < 0 or r == ROWS or 
+                c == COLS or board[r][c] != "O"
+            ):
+                return
+            board[r][c] = "T"
+            capture(r + 1, c)
+            capture(r - 1, c)
+            capture(r, c + 1)
+            capture(r, c - 1)
+
+        for r in range(ROWS):
+            if board[r][0] == "O":
+                capture(r, 0)
+            if board[r][COLS - 1] == "O":
+                capture(r, COLS - 1)
+        
+        for c in range(COLS):
+            if board[0][c] == "O":
+                capture(0, c)
+            if board[ROWS - 1][c] == "O":
+                capture(ROWS - 1, c)
+
+        for r in range(ROWS):
+            for c in range(COLS):
+                if board[r][c] == "O":
+                    board[r][c] = "X"
+                elif board[r][c] == "T":
+                    board[r][c] = "O"
+
+
+BFS
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        ROWS, COLS = len(board), len(board[0])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        def capture():
+            q = deque()
+            for r in range(ROWS):
+                for c in range(COLS):
+                    if (r == 0 or r == ROWS - 1 or 
+                        c == 0 or c == COLS - 1 and 
+                        board[r][c] == "O"
+                    ):
+                        q.append((r, c))
+            while q:
+                r, c = q.popleft()
+                if board[r][c] == "O":
+                    board[r][c] = "T"
+                    for dr, dc in directions:
+                        nr, nc = r + dr, c + dc
+                        if 0 <= nr < ROWS and 0 <= nc < COLS:
+                            q.append((nr, nc))
+        
+        capture()
+        for r in range(ROWS):
+            for c in range(COLS):
+                if board[r][c] == "O":
+                    board[r][c] = "X"
+                elif board[r][c] == "T":
+                    board[r][c] = "O"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+23.Open The Lock
+public class Solution {
+    public int openLock(String[] deadends, String target) {
+        if (target.equals("0000")) return 0;
+
+        Set<String> visit = new HashSet<>(Arrays.asList(deadends));
+        if (visit.contains("0000")) return -1;
+
+        Queue<String> q = new LinkedList<>();
+        q.offer("0000");
+        visit.add("0000");
+        int steps = 0;
+
+        while (!q.isEmpty()) {
+            steps++;
+            for (int i = q.size(); i > 0; i--) {
+                String lock = q.poll();
+                for (int j = 0; j < 4; j++) {
+                    for (int move : new int[]{1, -1}) {
+                        char[] arr = lock.toCharArray();
+                        arr[j] = (char)((arr[j] - '0' + move + 10) % 10 + '0');
+                        String nextLock = new String(arr);
+                        if (visit.contains(nextLock)) continue;
+                        if (nextLock.equals(target)) return steps;
+                        q.offer(nextLock);
+                        visit.add(nextLock);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+8.Course Schedule   
+public class Solution {
+    // Map each course to its prerequisites
+    private Map<Integer, List<Integer>> preMap = new HashMap<>();
+    // Store all courses along the current DFS path
+    private Set<Integer> visiting = new HashSet<>();
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        for (int i = 0; i < numCourses; i++) {
+            preMap.put(i, new ArrayList<>());
+        }
+        for (int[] prereq : prerequisites) {
+            preMap.get(prereq[0]).add(prereq[1]);
+        }
+
+        for (int c = 0; c < numCourses; c++) {
+            if (!dfs(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean dfs(int crs) {
+        if (visiting.contains(crs)) {
+            // Cycle detected
+            return false;
+        }
+        if (preMap.get(crs).isEmpty()) {
+            return true;
+        }
+
+        visiting.add(crs);
+        for (int pre : preMap.get(crs)) {
+            if (!dfs(pre)) {
+                return false;
+            }
+        }
+        visiting.remove(crs);
+        preMap.put(crs, new ArrayList<>());
+        return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9.Course Schedule II  
+public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        Map<Integer, List<Integer>> prereq = new HashMap<>();
+        for (int[] pair : prerequisites) {
+            prereq.computeIfAbsent(pair[0], 
+                k -> new ArrayList<>()).add(pair[1]);
+        }
+
+        List<Integer> output = new ArrayList<>();
+        Set<Integer> visit = new HashSet<>();
+        Set<Integer> cycle = new HashSet<>();
+
+        for (int course = 0; course < numCourses; course++) {
+            if (!dfs(course, prereq, visit, cycle, output)) {
+                return new int[0];
+            }
+        }
+
+        int[] result = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            result[i] = output.get(i);
+        }
+        return result;
+    }
+
+    private boolean dfs(int course, Map<Integer, List<Integer>> prereq,
+                        Set<Integer> visit, Set<Integer> cycle, 
+                        List<Integer> output) {
+
+        if (cycle.contains(course)) {
+            return false;
+        }
+        if (visit.contains(course)) {
+            return true;
+        }
+
+        cycle.add(course);
+        for (int pre : prereq.getOrDefault(course, Collections.emptyList())) {
+            if (!dfs(pre, prereq, visit, cycle, output)) {
+                return false;
+            }
+        }
+        cycle.remove(course);
+        visit.add(course);
+        output.add(course);
+        return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10.Graph Valid Tree 
+public class Solution {
+    public boolean validTree(int n, int[][] edges) {
+        if (edges.length > n - 1) {
+            return false;
+        }
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int[] edge : edges) {
+            adj.get(edge[0]).add(edge[1]);
+            adj.get(edge[1]).add(edge[0]);
+        }
+
+        Set<Integer> visit = new HashSet<>();
+        if (!dfs(0, -1, visit, adj)) {
+            return false;
+        }
+        
+        return visit.size() == n;
+    }
+
+    private boolean dfs(int node, int parent, Set<Integer> visit, 
+                        List<List<Integer>> adj) {
+        if (visit.contains(node)) {
+            return false;
+        }
+        
+        visit.add(node);
+        for (int nei : adj.get(node)) {
+            if (nei == parent) {
+                continue;
+            }
+            if (!dfs(nei, node, visit, adj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+1462. Course Schedule IV - Explanation
+public class Solution {
+    private List<Integer>[] adj;
+
+    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        adj = new ArrayList[numCourses];
+        for (int i = 0; i < numCourses; i++) adj[i] = new ArrayList<>();
+        for (int[] pre : prerequisites) adj[pre[0]].add(pre[1]);
+
+        List<Boolean> res = new ArrayList<>();
+        for (int[] query : queries) {
+            res.add(dfs(query[0], query[1]));
+        }
+        return res;
+    }
+
+    private boolean dfs(int node, int target) {
+        if (node == target) return true;
+        for (int nei : adj[node]) {
+            if (dfs(nei, target)) return true;
+        }
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11.Number of Connected Components In An Undirected Graph   
+:::union find algorithm   547 in leetcode is free
+public class Solution {
+    public int countComponents(int n, int[][] edges) {
+        List<List<Integer>> adj = new ArrayList<>();
+        boolean[] visit = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            adj.get(edge[0]).add(edge[1]);
+            adj.get(edge[1]).add(edge[0]);
+        }
+
+        int res = 0;
+        for (int node = 0; node < n; node++) {
+            if (!visit[node]) {
+                dfs(adj, visit, node);
+                res++;
+            }
+        }
+        return res;
+    }
+
+    private void dfs(List<List<Integer>> adj, boolean[] visit, int node) {
+        visit[node] = true;
+        for (int nei : adj.get(node)) {
+            if (!visit[nei]) {
+                dfs(adj, visit, nei);
+            }
+        }
+    }
+}
+
+
+DSU
+
+public class DSU {
+    int[] parent;
+    int[] rank;
+
+    public DSU(int n) {
+        parent = new int[n];
+        rank = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            rank[i] = 1;
+        }
+    }
+
+    public int find(int node) {
+        int cur = node;
+        while (cur != parent[cur]) {
+            parent[cur] = parent[parent[cur]];
+            cur = parent[cur];
+        }
+        return cur;
+    }
+
+    public boolean union(int u, int v) {
+        int pu = find(u);
+        int pv = find(v);
+        if (pu == pv) {
+            return false;
+        }
+        if (rank[pv] > rank[pu]) {
+            int temp = pu;
+            pu = pv;
+            pv = temp;
+        }
+        parent[pv] = pu;
+        rank[pu] += rank[pv];
+        return true;
+    }
+}
+
+public class Solution {
+    public int countComponents(int n, int[][] edges) {
+        DSU dsu = new DSU(n);
+        int res = n;
+        for (int[] edge : edges) {
+            if (dsu.union(edge[0], edge[1])) {
+                res--;
+            }
+        }
+        return res;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Redundant Connection  
+public class Solution {
+    private boolean[] visit;
+    private List<List<Integer>> adj;
+    private Set<Integer> cycle;
+    private int cycleStart;
+
+    public int[] findRedundantConnection(int[][] edges) {
+        int n = edges.length;
+        adj = new ArrayList<>();
+        for (int i = 0; i <= n; i++) 
+            adj.add(new ArrayList<>());
+
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1];
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        visit = new boolean[n + 1];
+        cycle = new HashSet<>();
+        cycleStart = -1;
+        dfs(1, -1);
+
+        for (int i = edges.length - 1; i >= 0; i--) {
+            int u = edges[i][0], v = edges[i][1];
+            if (cycle.contains(u) && cycle.contains(v)) {
+                return new int[]{u, v};
+            }
+        }
+        return new int[0];
+    }
+
+    private boolean dfs(int node, int par) {
+        if (visit[node]) {
+            cycleStart = node;
+            return true;
+        }
+        visit[node] = true;
+        for (int nei : adj.get(node)) {
+            if (nei == par) continue;
+            if (dfs(nei, node)) {
+                if (cycleStart != -1) cycle.add(node);
+                if (node == cycleStart) {
+                    cycleStart = -1;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+public class Solution {
+    public int[] findRedundantConnection(int[][] edges) {
+        int[] par = new int[edges.length + 1];
+        int[] rank = new int[edges.length + 1];
+        for (int i = 0; i < par.length; i++) {
+            par[i] = i;
+            rank[i] = 1;
+        }
+
+        for (int[] edge : edges) {
+            if (!union(par, rank, edge[0], edge[1]))
+                return new int[]{edge[0], edge[1]};
+        }
+        return new int[0];
+    }
+
+    private int find(int[] par, int n) {
+        int p = par[n];
+        while (p != par[p]) {
+            par[p] = par[par[p]];
+            p = par[p];
+        }
+        return p;
+    }
+
+    private boolean union(int[] par, int[] rank, int n1, int n2) {
+        int p1 = find(par, n1);
+        int p2 = find(par, n2);
+
+        if (p1 == p2)
+            return false;
+        if (rank[p1] > rank[p2]) {
+            par[p2] = p1;
+            rank[p1] += rank[p2];
+        } else {
+            par[p1] = p2;
+            rank[p2] += rank[p1];
+        }
+        return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Evaluate Division	
+public class Solution {
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Map<String, List<Pair>> adj = new HashMap<>(); // Map a -> list of [b, a/b]
+
+        for (int i = 0; i < equations.size(); i++) {
+            String a = equations.get(i).get(0);
+            String b = equations.get(i).get(1);
+            adj.putIfAbsent(a, new ArrayList<>());
+            adj.putIfAbsent(b, new ArrayList<>());
+            adj.get(a).add(new Pair(b, values[i]));
+            adj.get(b).add(new Pair(a, 1 / values[i]));
+        }
+
+        double[] res = new double[queries.size()];
+        for (int i = 0; i < queries.size(); i++) {
+            String src = queries.get(i).get(0);
+            String target = queries.get(i).get(1);
+            res[i] = bfs(src, target, adj);
+        }
+
+        return res;
+    }
+
+    private double bfs(String src, String target, Map<String, List<Pair>> adj) {
+        if (!adj.containsKey(src) || !adj.containsKey(target)) {
+            return -1.0;
+        }
+
+        Queue<Pair> q = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        q.offer(new Pair(src, 1.0));
+        visited.add(src);
+
+        while (!q.isEmpty()) {
+            Pair current = q.poll();
+            String node = current.node;
+            double weight = current.weight;
+
+            if (node.equals(target)) {
+                return weight;
+            }
+
+            for (Pair neighbor : adj.get(node)) {
+                if (!visited.contains(neighbor.node)) {
+                    visited.add(neighbor.node);
+                    q.offer(new Pair(neighbor.node, weight * neighbor.weight));
+                }
+            }
+        }
+
+        return -1.0;
+    }
+
+    class Pair {
+        String node;
+        double weight;
+
+        Pair(String node, double weight) {
+            this.node = node;
+            this.weight = weight;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Path with Minimum Effort
+ Dijkstra's Algorithm
+ public class Solution {
+    public int minimumEffortPath(int[][] heights) {
+        int rows = heights.length;
+        int cols = heights[0].length;
+        int[][] dist = new int[rows][cols];
+        for (int[] row : dist) {
+            Arrays.fill(row, Integer.MAX_VALUE);
+        }
+        dist[0][0] = 0;
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        minHeap.offer(new int[]{0, 0, 0}); // {diff, row, col}
+
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        while (!minHeap.isEmpty()) {
+            int[] curr = minHeap.poll();
+            int diff = curr[0], r = curr[1], c = curr[2];
+
+            if (r == rows - 1 && c == cols - 1) return diff;
+            if (dist[r][c] < diff) continue;
+
+            for (int[] dir : directions) {
+                int newR = r + dir[0], newC = c + dir[1];
+                if (newR < 0 || newC < 0 || newR >= rows || newC >= cols) {
+                    continue;
+                }
+
+                int newDiff = Math.max(diff, Math.abs(heights[r][c] - heights[newR][newC]));
+                if (newDiff < dist[newR][newC]) {
+                    dist[newR][newC] = newDiff;
+                    minHeap.offer(new int[]{newDiff, newR, newC});
+                }
+            }
+        }
+
+        return 0;
+    }
+}
+
+4. Shortest Path Faster Algorithm
+
+public class Solution {
+    public int minimumEffortPath(int[][] heights) {
+        int ROWS = heights.length, COLS = heights[0].length;
+        int[] dist = new int[ROWS * COLS];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[0] = 0;
+
+        boolean[] inQueue = new boolean[ROWS * COLS];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+        inQueue[0] = true;
+
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            inQueue[u] = false;
+
+            int r = u / COLS, c = u % COLS;
+
+            for (int[] dir : directions) {
+                int newR = r + dir[0], newC = c + dir[1];
+                if (newR >= 0 && newC >= 0 && newR < ROWS && newC < COLS) {
+                    int v = newR * COLS + newC;
+                    int weight = Math.abs(heights[r][c] - heights[newR][newC]);
+                    int newDist = Math.max(dist[u], weight);
+                    if (newDist < dist[v]) {
+                        dist[v] = newDist;
+                        if (!inQueue[v]) {
+                            queue.offer(v);
+                            inQueue[v] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return dist[ROWS * COLS - 1];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Network Delay Time  
+5. Dijkstra's Algorithm
+
+public class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        Map<Integer, List<int[]>> edges = new HashMap<>();
+        for (int[] time : times) {
+            edges.computeIfAbsent(time[0], 
+            key -> new ArrayList<>()).add(new int[]{time[1], time[2]});
+        }
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        minHeap.offer(new int[]{0, k});
+
+        Set<Integer> visited = new HashSet<>();
+        int t = 0;
+        while (!minHeap.isEmpty()) {
+            int[] curr = minHeap.poll();
+            int w1 = curr[0], n1 = curr[1];
+            if (visited.contains(n1)) {
+                continue;
+            }
+            visited.add(n1);
+            t = w1;
+
+            if (edges.containsKey(n1)) {
+                for (int[] next : edges.get(n1)) {
+                    int n2 = next[0], w2 = next[1];
+                    if (!visited.contains(n2)) {
+                        minHeap.offer(new int[]{w1 + w2, n2});
+                    }
+                }
+            }
+        }
+
+        return visited.size() == n ? t : -1;
+    }
+}
+
+4. Shortest Path Faster Algorithm
+
+public class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        for (int i = 1; i <= n; i++) adj.put(i, new ArrayList<>());
+        for (int[] time : times) {
+            adj.get(time[0]).add(new int[] {time[1], time[2]});
+        }
+        Map<Integer, Integer> dist = new HashMap<>();
+        for (int i = 1; i <= n; i++) dist.put(i, Integer.MAX_VALUE);
+        dist.put(k, 0);
+        
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] {k, 0});
+
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            int node = curr[0], time = curr[1];
+            if (dist.get(node) < time) {
+                continue;
+            }
+            for (int[] nei : adj.get(node)) {
+                int nextNode = nei[0], weight = nei[1];
+                if (time + weight < dist.get(nextNode)) {
+                    dist.put(nextNode, time + weight);
+                    q.offer(new int[] {nextNode, time + weight});
+                }
+            }
+        }
+
+        int res = Collections.max(dist.values());
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+}
+
+3. Bellman Ford Algorithm
+public class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[k - 1] = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int[] time : times) {
+                int u = time[0] - 1, v = time[1] - 1, w = time[2];
+                if (dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {
+                    dist[v] = dist[u] + w;
+                }
+            }
+        }
+
+        int maxDist = Arrays.stream(dist).max().getAsInt();
+        return maxDist == Integer.MAX_VALUE ? -1 : maxDist;
+    }
+}
+1. Depth First Search
+
+public class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        for (int[] time : times) {
+            adj.computeIfAbsent(time[0], 
+            x -> new ArrayList<>()).add(new int[]{time[1], time[2]});
+        }
+
+        Map<Integer, Integer> dist = new HashMap<>();
+        for (int i = 1; i <= n; i++) dist.put(i, Integer.MAX_VALUE);
+
+        dfs(k, 0, adj, dist);
+        int res = Collections.max(dist.values());
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+
+    private void dfs(int node, int time, 
+                     Map<Integer, List<int[]>> adj, 
+                     Map<Integer, Integer> dist) {
+        if (time >= dist.get(node)) return;
+        dist.put(node, time);
+        if (!adj.containsKey(node)) return;
+        for (int[] edge : adj.get(node)) {
+            dfs(edge[0], time + edge[1], adj, dist);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Min Cost to Connect All Points 
+1. Kruskal's Algorithm
+public class DSU {
+    int[] Parent, Size;
+
+    public DSU(int n) {
+        Parent = new int[n + 1];
+        Size = new int[n + 1];
+        for (int i = 0; i <= n; i++) Parent[i] = i;
+        Arrays.fill(Size, 1);
+    }
+
+    public int find(int node) {
+        if (Parent[node] != node) {
+            Parent[node] = find(Parent[node]);
+        }
+        return Parent[node];
+    }
+
+    public boolean union(int u, int v) {
+        int pu = find(u), pv = find(v);
+        if (pu == pv) return false;
+        if (Size[pu] < Size[pv]) {
+            int temp = pu;
+            pu = pv;
+            pv = temp;
+        }
+        Size[pu] += Size[pv];
+        Parent[pv] = pu;
+        return true;
+    }
+}
+
+public class Solution {
+    public int minCostConnectPoints(int[][] points) {
+        int n = points.length;
+        DSU dsu = new DSU(n);
+        List<int[]> edges = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int dist = Math.abs(points[i][0] - points[j][0]) + 
+                           Math.abs(points[i][1] - points[j][1]);
+                edges.add(new int[] {dist, i, j});
+            }
+        }
+        
+        edges.sort((a, b) -> Integer.compare(a[0], b[0]));
+        int res = 0;
+
+        for (int[] edge : edges) {
+            if (dsu.union(edge[1], edge[2])) {
+                res += edge[0];
+            }
+        }
+        return res;
+    }
+}
+
+2. Prim's Algorithm
+public class Solution {
+    public int minCostConnectPoints(int[][] points) {
+        int N = points.length;
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        for (int i = 0; i < N; i++) {
+            int x1 = points[i][0];
+            int y1 = points[i][1];
+            for (int j = i + 1; j < N; j++) {
+                int x2 = points[j][0];
+                int y2 = points[j][1];
+                int dist = Math.abs(x1 - x2) + Math.abs(y1 - y2);
+                adj.computeIfAbsent(i, k -> new ArrayList<>()).add(new int[]{dist, j});
+                adj.computeIfAbsent(j, k -> new ArrayList<>()).add(new int[]{dist, i});
+            }
+        }
+
+        int res = 0;
+        Set<Integer> visit = new HashSet<>();
+        PriorityQueue<int[]> minH = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        minH.offer(new int[]{0, 0});
+        while (visit.size() < N) {
+            int[] curr = minH.poll();
+            int cost = curr[0];
+            int i = curr[1];
+            if (visit.contains(i)) {
+                continue;
+            }
+            res += cost;
+            visit.add(i);
+            for (int[] nei : adj.getOrDefault(i, Collections.emptyList())) {
+                int neiCost = nei[0];
+                int neiIndex = nei[1];
+                if (!visit.contains(neiIndex)) {
+                    minH.offer(new int[]{neiCost, neiIndex});
+                }
+            }
+        }
+        return res;
+    }
+}
+
+3. Prim's Algorithm (Optimal)
+public class Solution {
+    public int minCostConnectPoints(int[][] points) {
+        int n = points.length, node = 0;
+        int[] dist = new int[n];
+        boolean[] visit = new boolean[n];
+        Arrays.fill(dist, 100000000);
+        int edges = 0, res = 0;
+
+        while (edges < n - 1) {
+            visit[node] = true;
+            int nextNode = -1;
+            for (int i = 0; i < n; i++) {
+                if (visit[i]) continue;
+                int curDist = Math.abs(points[i][0] - points[node][0]) + 
+                              Math.abs(points[i][1] - points[node][1]);
+                dist[i] = Math.min(dist[i], curDist);
+                if (nextNode == -1 || dist[i] < dist[nextNode]) {
+                    nextNode = i;
+                }
+            }
+            res += dist[nextNode];
+            node = nextNode;
+            edges++;
+        }
+        return res;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheapest Flights Within K Stops   
+
+2. Bellman Ford Algorithm
+public class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int[] prices = new int[n];
+        Arrays.fill(prices, Integer.MAX_VALUE);
+        prices[src] = 0;
+
+        for (int i = 0; i <= k; i++) {
+            int[] tmpPrices = Arrays.copyOf(prices, n);
+
+            for (int[] flight : flights) {
+                int s = flight[0];
+                int d = flight[1];
+                int p = flight[2];
+
+                if (prices[s] == Integer.MAX_VALUE) {
+                    continue;
+                }
+
+                if (prices[s] + p < tmpPrices[d]) {
+                    tmpPrices[d] = prices[s] + p;
+                }
+            }
+
+            prices = tmpPrices;
+        }
+
+        return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];
+    }
+}
+
+1. Dijkstra's Algorithm
+
+public class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int INF = Integer.MAX_VALUE;
+        List<int[]>[] adj = new ArrayList[n];
+        int[][] dist = new int[n][k + 5];
+        for (int i = 0; i < n; i++) Arrays.fill(dist[i], INF);
+        
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
+        for (int[] flight : flights) {
+            adj[flight[0]].add(new int[]{flight[1], flight[2]});
+        }
+        
+        dist[src][0] = 0;
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(
+            Comparator.comparingInt(a -> a[0])
+        );
+        minHeap.offer(new int[]{0, src, -1});
+
+        while (!minHeap.isEmpty()) {
+            int[] top = minHeap.poll();
+            int cst = top[0], node = top[1], stops = top[2];
+            if (node == dst) return cst;
+            if (stops == k || dist[node][stops + 1] < cst) continue;
+            for (int[] neighbor : adj[node]) {
+                int nei = neighbor[0], w = neighbor[1];
+                int nextCst = cst + w;
+                int nextStops = stops + 1;
+                if (dist[nei][nextStops + 1] > nextCst) {
+                    dist[nei][nextStops + 1] = nextCst;
+                    minHeap.offer(new int[]{nextCst, nei, nextStops});
+                }
+            }
+        }
+        return -1;
+    }
+}
+
+
+3. Shortest Path Faster Algorithm
+public class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int[] prices = new int[n];
+        Arrays.fill(prices, Integer.MAX_VALUE);
+        prices[src] = 0;
+        List<int[]>[] adj = new ArrayList[n];
+        for (int i = 0; i < n; i++) {
+            adj[i] = new ArrayList<>();
+        }
+        for (var flight : flights) {
+            adj[flight[0]].add(new int[] { flight[1], flight[2] });
+        }
+
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { 0, src, 0 });
+
+        while (!q.isEmpty()) {
+            var curr = q.poll();
+            int cst = curr[0], node = curr[1], stops = curr[2];
+            if (stops > k) continue;
+
+            for (var neighbor : adj[node]) {
+                int nei = neighbor[0], w = neighbor[1];
+                int nextCost = cst + w;
+                if (nextCost < prices[nei]) {
+                    prices[nei] = nextCost;
+                    q.offer(new int[] { nextCost, nei, stops + 1 });
+                }
+            }
+        }
+        return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+269. Alien Dictionary - Explanation
+public class Solution {
+    private Map<Character, Set<Character>> adj;
+    private Map<Character, Boolean> visited;
+    private List<Character> result;
+
+    public String foreignDictionary(String[] words) {
+        adj = new HashMap<>();
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                adj.putIfAbsent(c, new HashSet<>());
+            }
+        }
+
+        for (int i = 0; i < words.length - 1; i++) {
+            String w1 = words[i], w2 = words[i + 1];
+            int minLen = Math.min(w1.length(), w2.length());
+            if (w1.length() > w2.length() && 
+                w1.substring(0, minLen).equals(w2.substring(0, minLen))) {
+                return "";
+            }
+            for (int j = 0; j < minLen; j++) {
+                if (w1.charAt(j) != w2.charAt(j)) {
+                    adj.get(w1.charAt(j)).add(w2.charAt(j));
+                    break;
+                }
+            }
+        }
+
+        visited = new HashMap<>();
+        result = new ArrayList<>();
+        for (char c : adj.keySet()) {
+            if (dfs(c)) {
+                return "";
+            }
+        }
+
+        Collections.reverse(result);
+        StringBuilder sb = new StringBuilder();
+        for (char c : result) {
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    private boolean dfs(char ch) {
+        if (visited.containsKey(ch)) {
+            return visited.get(ch);
+        }
+
+        visited.put(ch, true);
+        for (char next : adj.get(ch)) {
+            if (dfs(next)) {
+                return true;
+            }
+        }
+        visited.put(ch, false);
+        result.add(ch);
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+2. Topological Sort (Kahn's Algorithm)
+
+public class Solution {
+    public String foreignDictionary(String[] words) {
+        Map<Character, Set<Character>> adj = new HashMap<>();
+        Map<Character, Integer> indegree = new HashMap<>();
+        
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                adj.putIfAbsent(c, new HashSet<>());
+                indegree.putIfAbsent(c, 0);
+            }
+        }
+
+        for (int i = 0; i < words.length - 1; i++) {
+            String w1 = words[i];
+            String w2 = words[i + 1];
+            int minLen = Math.min(w1.length(), w2.length());
+            if (w1.length() > w2.length() && 
+                w1.substring(0, minLen).equals(w2.substring(0, minLen))) {
+                return "";
+            }
+            for (int j = 0; j < minLen; j++) {
+                if (w1.charAt(j) != w2.charAt(j)) {
+                    if (!adj.get(w1.charAt(j)).contains(w2.charAt(j))) {
+                        adj.get(w1.charAt(j)).add(w2.charAt(j));
+                        indegree.put(w2.charAt(j), 
+                                     indegree.get(w2.charAt(j)) + 1);
+                    }
+                    break;
+                }
+            }
+        }
+
+        Queue<Character> q = new LinkedList<>();
+        for (char c : indegree.keySet()) {
+            if (indegree.get(c) == 0) {
+                q.offer(c);
+            }
+        }
+
+        StringBuilder res = new StringBuilder();
+        while (!q.isEmpty()) {
+            char char_ = q.poll();
+            res.append(char_);
+            for (char neighbor : adj.get(char_)) {
+                indegree.put(neighbor, indegree.get(neighbor) - 1);
+                if (indegree.get(neighbor) == 0) {
+                    q.offer(neighbor);
+                }
+            }
+        }
+
+        if (res.length() != indegree.size()) {
+            return "";
+        }
+
+        return res.toString();
+    }
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Island Perimeter   	
+
+
+Verifying An Alien Dictionary   	
+
+
+Find the Town Judge   	
+
+
+Flood Fill   	
+
+
+
+Count Servers that Communicate   	
+
+
+
+Find Champion II	
+
+
+
+Number of Islands   	
+
+
+
+Max Area of Island   	
+
+
+
+Maximum Number of Fish in a Grid	
+
+
+
+
+Clone Graph   
+
+
+
+
+Walls And Gates   
+
+
+
+
+Rotting Oranges   	
+
+
+
+Count Sub Islands	
+
+
+
+Pacific Atlantic Water Flow   	
+
+
+
+
+Surrounded Regions   	
+
+
+
+
+Reorder Routes to Make All Paths Lead to The City Zero	
+
+
+
+Snakes And Ladders	
+
+
+
+Open The Lock   	
+
+
+
+Find Eventual Safe States	
+
+
+
+
+Course Schedule   	
+
+
+
+
+Course Schedule II   	
+
+
+
+Graph Valid Tree   	
+
+
+
+Course Schedule IV   	
+
+
+
+Check if Move Is Legal	
+
+
+
+
+
+
+Shortest Bridge   	
+
+
+
+Shortest Path in Binary Matrix   	
+
+
+
+Number of Connected Components In An Undirected Graph   	
+
+
+
+Redundant Connection   	
+
+Accounts Merge   	
+
+
+Find Closest Node to Given Two Nodes	
+
+
+
+As Far from Land as Possible	
+
+
+
+Shortest Path with Alternating Colors	
+
+
+
+Minimum Fuel Cost to Report to the Capital	
+
+
+
+Minimum Score of a Path Between Two Cities	
+
+
+
+Number of Closed Islands	
+
+
+
+Number of Enclaves   	
+
+
+
+Number of Provinces   	
+
+
+
+Regions Cut By Slashes	
+
+
+
+Minimum Number of Vertices to Reach all Nodes	
+
+
+
+Is Graph Bipartite?	
+
+
+
+Count the Number of Complete Components	
+
+
+
+Evaluate Division   	
+
+
+
+Detonate the Maximum Bombs	
+
+
+
+Find All Possible Recipes from Given Supplies	
+
+
+
+Shortest Distance After Road Addition Queries I	
+
+
+
+Minimum Height Trees   	
+
+
+
+Path with Maximum Gold	
+
+
+
+Most Profitable Path in a Tree	
+
+
+
+Maximum Number of Points From Grid Queries	
+
+
+
+Maximum Number of K-Divisible Components	
+
+
+
+Sliding Puzzle	
+
+
+
+Largest Color Value in a Directed Graph	
+
+
+
+Minimum Number of Days to Eat N Oranges	
+
+
+
+Find All People With Secret	
+
+
+
+Word Ladder   	
+
+
+
+Parallel Courses III
+
+
+
+
+Path with Minimum Effort   	
+
+
+Network Delay Time   	
+
+
+
+Reconstruct Itinerary   	
+
+
+
+Min Cost to Connect All Points   	
+
+
+
+Path with Maximum Probability   	
+
+
+
+Find the Safest Path in a Grid	
+
+
+
+Swim In Rising Water   	
+
+
+
+Alien Dictionary   	
+
+
+
+Trapping Rain Water II	
+
+
+
+Minimum Obstacle Removal to Reach Corner	
+
+
+
+Minimum Cost to Make at Least One Valid Path in a Grid	
+
+
+
+Minimum Time to Visit a Cell In a Grid	
+
+
+
+Cheapest Flights Within K Stops   	
+
+
+
+Find the City With the Smallest Number of Neighbors at a Threshold Distance	
+
+
+
+Minimum Cost to Convert String I	
+
+
+
+Number of Ways to Arrive at Destination	
+
+
+Making A Large Island	
+
+
+
+Minimum Cost Walk in Weighted Graph	
+
+
+
+Number of Good Paths	
+
+
+
+Maximum Employees to Be Invited to a Meeting	
+
+
+
+Remove Max Number of Edges to Keep Graph Fully Traversable	
+
+
+
+Minimum Number of Days to Disconnect Island	
+
+
+
+Second Minimum Time to Reach Destination	
+
+
+
+Find Minimum Diameter After Merging Two Trees	
+
+
+
+Find Critical and Pseudo Critical Edges in Minimum Spanning Tree   	
+
+
+
+Bus Routes   	
+
+
+
+Build a Matrix With Conditions   	
+
+
+
+Greatest Common Divisor Traversal   	
+
+
+
+Divide Nodes Into the Maximum Number of Groups
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
